@@ -8,7 +8,8 @@ A simple python script that fetches jokes from r/darkjokes and optionally adds t
 5. copy the credentials you are given
 6. create a .env file in the project's root directory
 7. add the credentials to the .env file like this:
-  ```client_id = "client id that reddit gave you."
+  ```
+   client_id = "client id that reddit gave you."
    client_secret = "secret key that reddit gave you."
    user_agent = "whatever name you gave your reddit app while creating it."
    ```
