@@ -15,7 +15,7 @@ A simple python script that fetches jokes from r/darkjokes and optionally adds t
    ```
 8. do a pip install -r requirements.txt in your terminal
 10. run the script. `python3 main.py`
-11. You can optionally add a commandline argument if you're on linux and have variety installed.
+11. You can optionally add a commandline argument if you're on linux and have variety installed. by running:
   `
   python3 main.py var
   `
