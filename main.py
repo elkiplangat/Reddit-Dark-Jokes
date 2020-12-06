@@ -1,9 +1,9 @@
+import ctypes
 import os
 import random
 import sys
 import textwrap
 import time
-import ctypes
 
 import praw
 import schedule
@@ -21,7 +21,7 @@ sorted_lines = []
 def fetch_jokes():
     global new_posts
     reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent=user_agent)
-    new_posts = reddit.subreddit('darkjokes').new(limit=200)
+    new_posts = reddit.subreddit('darkjokes').new(limit=2000)
 
 
 # fetch_jokes()
@@ -73,7 +73,7 @@ def select_random_joke():
 
 def add_joke_text_to_image():
     #
-    image = Image.open('images/variety-copied-wallpaper-08b52ba3e5417d34d30842524c81f927.jpg')
+    image = Image.open('images/image1.jpg')
     font = ImageFont.truetype('fonts/Montserrat-Bold.ttf', 30)
     image_width, image_height = image.size
     print(f'image width: {image_width}')
@@ -90,8 +90,18 @@ def add_joke_text_to_image():
 
 
 def change_wallpaper_for_windows():
-    PATH = os.path.abspath()+'\wallpaper.jpg'
+    PATH = os.path.abspath() + '\wallpaper.jpg'
     ctypes.windll.user32.SystemParametersInfoW(20, 0, PATH, 3)
+
+
+def write_jokes_to_variety_txt():
+    username = os.getlogin()
+    print("Sjokes to variety quotes file.")
+    with open(f'/home/{username}/.config/variety/pluginconfig/quotes/quotes.txt', 'w') as fp:
+        for post in new_posts:
+            formatted_string = f'"{post.title} {post.selftext}"\n -- {post.author}\n.\n'
+            fp.write(formatted_string)
+    print("Successfully written jokes to variety quotes file.")
 
 
 if os.name == 'posix':
@@ -116,7 +126,7 @@ if os.name == 'posix':
 
         schedule.every(60).minutes.do(clear_sorted_jokes_array)
         schedule.every(60).minutes.do(fetch_jokes)
-        schedule.every(60).minutes.do(write_jokes_to_txt)
+        schedule.every(60).minutes.do(write_jokes_to_variety_txt)
         schedule.every(1).minutes.do(add_joke_text_to_image)
 
         while True:
